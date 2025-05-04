@@ -10,7 +10,7 @@ import type {
   IndustryType,
   WritingStyle,
   ContentLength
-} from "./article"
+} from "@/types/article"
 
 /**
  * State artikel dalam aplikasi

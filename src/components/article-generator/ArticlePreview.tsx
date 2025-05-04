@@ -18,6 +18,18 @@ export function ArticlePreview({ article }: ArticlePreviewProps) {
       <CardContent className="p-0">
         <ScrollArea className="h-[500px]">
           <div className="space-y-6 p-4">
+            {article.generatedImage && (
+              <div className="my-4 rounded-md overflow-hidden border border-input shadow-sm">
+                <Image
+                  src={article.generatedImage}
+                  alt={article.title || 'Generated article image'}
+                  width={800}
+                  height={450}
+                  className="w-full h-auto object-cover"
+                  priority
+                />
+              </div>
+            )}
             {article.title && <h1 className="text-2xl font-bold tracking-tight scroll-m-20 text-foreground text-center">{article.title}</h1>}
             
             {/* Display Settings Information */}

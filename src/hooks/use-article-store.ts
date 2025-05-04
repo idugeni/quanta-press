@@ -66,6 +66,10 @@ export const useArticleStore = create<ArticleState>((set) => ({
     set((state) => ({
       article: { ...state.article, imagePrompt },
     })),
+  setGeneratedImage: (generatedImage: string | null) =>
+    set((state) => ({
+      article: { ...state.article, generatedImage },
+    })),
     
   setContent: (content) =>
     set((state) => ({

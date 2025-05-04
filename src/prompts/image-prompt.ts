@@ -27,8 +27,11 @@ Beberapa pedoman untuk prompt:
 - Harus dalam bahasa Inggris
 - Harus SANGAT detail dan deskriptif, tanpa batasan jumlah kalimat.
 - Fokus pada elemen visual, gaya, suasana, pencahayaan, dan komposisi yang menunjukkan kualitas premium
+- Sertakan modifier kualitas gambar seperti "high quality, ultra detailed, 8k, award-winning photo"
+- Gunakan aspek rasio 4:3 (dapat disebutkan secara natural dalam prompt, misal: "in 4:3 aspect ratio")
+- Jika relevan, tambahkan kata kunci fotografi seperti "professional photography", "DSLR photo", atau "cinematic lighting" untuk hasil lebih realistis
 - Harus menarik perhatian dan relevan dengan topik artikel
-- Jangan sertakan instruksi teknis seperti "aspect ratio" atau "resolution"
+- Jangan sertakan instruksi teknis seperti "resolution"
 
 HANYA BERIKAN PROMPT TEXT-TO-IMAGE, TIDAK LEBIH TIDAK KURANG.`
 }

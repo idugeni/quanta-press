@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
-import Image from 'next/image'; // Impor komponen Image
+import Image from 'next/image' // Impor komponen Image
 import { useArticleStore } from "@/hooks/use-article-store"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -16,7 +16,8 @@ import { FiImage, FiLoader } from "react-icons/fi"
 import { RiMagicLine } from "react-icons/ri"
 import { generateContentStream } from "@/config/gemini"
 import { getImagePromptPrompt, getImagePromptSystemPrompt } from "@/prompts/image-prompt"
-import { generateImageAction } from '@/actions/image-generation'; // Impor server action
+import { generateImageAction } from "@/actions/image-generation" // Impor server action
+import { AspectRatio } from "@/components/ui/aspect-ratio"
 
 interface ImagePromptFormProps {
   onCompleteAction: () => void
@@ -212,18 +213,21 @@ export function ImagePromptForm({ onCompleteAction }: ImagePromptFormProps) {
 
             {/* Tampilkan Gambar Hasil Generate */}
             {generatedImageData && (
-              <div className="mt-4 border border-border/40 rounded-md p-2 bg-background/50">
+              <>
                 <Label className="text-xs font-medium text-muted-foreground mb-1 block">Generated Image Preview</Label>
-                <div className="relative aspect-square w-full max-w-sm mx-auto overflow-hidden rounded">
-                  <Image
-                    src={generatedImageData}
-                    alt="Generated Image"
-                    layout="fill" // Atau 'intrinsic', 'fixed', 'responsive'
-                    objectFit="contain" // Atau 'cover'
-                    className="rounded"
-                  />
+                <div className="w-full max-w-2xl mx-auto">
+                  <AspectRatio ratio={4 / 3} className="w-full">
+                    <Image
+                      src={generatedImageData}
+                      alt="Generated Image"
+                      fill
+                      style={{objectFit: 'cover'}}
+                      className="rounded shadow-md"
+                      sizes="100vw"
+                    />
+                  </AspectRatio>
                 </div>
-              </div>
+              </>
             )}
 
             {imageError && (
@@ -234,7 +238,7 @@ export function ImagePromptForm({ onCompleteAction }: ImagePromptFormProps) {
             )}
 
             {/* Area Tampilan Gambar */}
-            {generatedImageData && (
+            {/* {generatedImageData && (
               <div className="mt-4 p-4 border border-border/40 rounded-lg bg-background/60 flex flex-col items-center">
                 <Label className="text-sm font-medium text-foreground mb-2">Generated Image:</Label>
                 <Image
@@ -245,7 +249,7 @@ export function ImagePromptForm({ onCompleteAction }: ImagePromptFormProps) {
                   className="rounded-md object-cover border border-border/20"
                 />
               </div>
-            )}
+            )} */}
           </div>
         </CardContent>
         <CardFooter className="pb-5">

@@ -6,7 +6,7 @@ export const genAI = new GoogleGenAI({
 })
 
 // Use a more stable model
-export const modelId = "gemini-2.0-flash-exp"
+export const modelId = "gemini-2.0-flash-thinking-exp-01-21"
 
 // Function to generate content with streaming
 export async function generateContentStream(
@@ -22,7 +22,7 @@ export async function generateContentStream(
 
     // Configure the model with appropriate settings
     const config = {
-      temperature: 0.7,
+      temperature: 0.9,
       topP: 0.95,
       topK: 40,
       maxOutputTokens: 65536,
@@ -122,7 +122,7 @@ export async function generateContentWithSearch(
     ]
     
     const config = {
-      temperature: 0.7,
+      temperature: 0.9,
       topP: 0.95,
       topK: 40,
       maxOutputTokens: 65536,
