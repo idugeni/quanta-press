@@ -95,40 +95,44 @@ export function ArticleSettingsForm({ onCompleteAction }: CompletableFormProps) 
       submitIcon={<FaArrowRight className="h-3.5 w-3.5" />}
       onSubmit={handleSubmit}
     >
-      <div className="space-y-6">
-        <FormSelectItem<IndustryType>
-          id="industryType"
-          label="Jenis Industri"
-          icon={<FaIndustry className="h-3.5 w-3.5" />}
-          value={industryType}
-          onValueChange={setIndustryTypeLocal}
-          placeholder="Pilih jenis industri"
-          helpText="Pilihan ini akan memengaruhi terminologi dan konteks spesifik yang digunakan dalam artikel Anda."
-          options={industryOptions}
-        />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-6">
+          <FormSelectItem<IndustryType>
+            id="industryType"
+            label="Jenis Industri"
+            icon={<FaIndustry className="h-3.5 w-3.5" />}
+            value={industryType}
+            onValueChange={setIndustryTypeLocal}
+            placeholder="Pilih jenis industri"
+            helpText="Pilihan ini akan memengaruhi terminologi dan konteks spesifik yang digunakan dalam artikel Anda."
+            options={industryOptions}
+          />
+          
+          <FormSelectItem<WritingStyle>
+            id="writingStyle"
+            label="Gaya Penulisan"
+            icon={<FaFont className="h-3.5 w-3.5" />}
+            value={writingStyle}
+            onValueChange={setWritingStyleLocal}
+            placeholder="Pilih gaya penulisan"
+            helpText="Gaya penulisan akan menentukan nada dan tingkat formalitas dalam artikel."
+            options={writingStyleOptions}
+          />
+        </div>
         
-        <FormSelectItem<WritingStyle>
-          id="writingStyle"
-          label="Gaya Penulisan"
-          icon={<FaFont className="h-3.5 w-3.5" />}
-          value={writingStyle}
-          onValueChange={setWritingStyleLocal}
-          placeholder="Pilih gaya penulisan"
-          helpText="Gaya penulisan akan menentukan nada dan tingkat formalitas dalam artikel."
-          options={writingStyleOptions}
-        />
-        
-        <FormSelectItem<ContentLength>
-          id="contentLength"
-          label="Panjang Konten"
-          icon={<FaRuler className="h-3.5 w-3.5" />}
-          value={contentLength}
-          onValueChange={setContentLengthLocal}
-          placeholder="Pilih panjang konten"
-          helpText="Ini akan menentukan kedalaman dan detail setiap bagian dalam artikel."
-          options={contentLengthOptions}
-        />
+        <div className="space-y-6">
+          <FormSelectItem<ContentLength>
+            id="contentLength"
+            label="Panjang Konten"
+            icon={<FaRuler className="h-3.5 w-3.5" />}
+            value={contentLength}
+            onValueChange={setContentLengthLocal}
+            placeholder="Pilih panjang konten"
+            helpText="Ini akan menentukan kedalaman dan detail setiap bagian dalam artikel."
+            options={contentLengthOptions}
+          />
+        </div>
       </div>
     </FormContainer>
   )
-} 
+}

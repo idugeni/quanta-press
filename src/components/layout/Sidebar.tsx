@@ -26,7 +26,7 @@ export function Sidebar({
   onStepClickAction 
 }: SidebarProps) {
   return (
-    <div className="hidden md:flex md:flex-col h-screen w-64">
+    <div className="hidden md:flex md:flex-col fixed top-0 left-0 h-screen w-64 z-30 bg-card border-r border-input shadow-card">
       <div className="p-4 flex flex-col items-center mt-4">
         <Badge variant="outline" className="py-1 px-2 text-xs font-medium text-foreground rounded-full border-primary/30 bg-primary/10 w-full flex items-center justify-center mb-2">
           <FaCalendarAlt className="w-3 h-3 mr-1" />

@@ -1,16 +1,15 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useArticleStore } from "@/hooks/use-article-store"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert" // Tambahkan AlertTitle
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { FaQuestion, FaArrowRight } from "react-icons/fa"
+import { FaQuestion } from "react-icons/fa"
 import { MdQuestionAnswer } from "react-icons/md"
 import { BiSolidMessageRoundedDetail } from "react-icons/bi"
 import { RiLoaderLine, RiMagicLine } from "react-icons/ri"
@@ -18,17 +17,15 @@ import { generateContentStream } from "@/config/gemini" // Ganti import
 import { getFaqPrompt, getFaqSystemPrompt } from "@/prompts/faq"
 import type { ArticleFaq } from "@/hooks/use-article-store"
 
-interface FaqFormProps {
-  onCompleteAction: () => void
-}
-
-export function FaqForm({ onCompleteAction }: FaqFormProps) {
+export function FaqForm({ onCompleteAction }: { onCompleteAction: () => void }) {
   const { article, setFaqs } = useArticleStore()
   const [numFaqs, setNumFaqs] = useState<string>("5")
   const [faqs, setFaqsState] = useState<ArticleFaq[]>(article.faqs.length > 0 ? article.faqs : [])
   const [streamingFaqs, setStreamingFaqs] = useState(''); // State untuk teks streaming
   const [isGenerating, setIsGenerating] = useState(false)
   const [error, setError] = useState("")
+
+
 
   const handleGenerate = async () => {
     if (!article.title) {
@@ -130,18 +127,12 @@ export function FaqForm({ onCompleteAction }: FaqFormProps) {
     setFaqsState(finalFallback);
     setStreamingFaqs(JSON.stringify(finalFallback, null, 2)); // Tampilkan fallback di area streaming juga
   };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (faqs.length === 0) {
-      setError('Please generate FAQs first or add your own');
-      return;
+  // Langsung panggil onCompleteAction setelah FAQs berhasil di-generate
+  useEffect(() => {
+    if (faqs.length > 0 && !isGenerating) {
+      onCompleteAction();
     }
-
-    setFaqs(faqs);
-    onCompleteAction();
-  };
+  }, [faqs, isGenerating, onCompleteAction]);
 
   return (
     <Card className="border-none bg-card transition-all rounded-xl overflow-hidden shadow-md">
@@ -154,8 +145,7 @@ export function FaqForm({ onCompleteAction }: FaqFormProps) {
           Generate SEO-friendly FAQs for your article based on the title: <strong>{article.title}</strong>
         </CardDescription>
       </CardHeader>
-      <form onSubmit={handleSubmit}>
-        <CardContent className="pt-5 pb-3">
+      <CardContent className="pt-5 pb-3">
           <div className="space-y-5">
             <div className="space-y-2">
               <Label htmlFor="numFaqs" className="text-sm font-medium text-foreground flex items-center gap-2">
@@ -272,16 +262,7 @@ export function FaqForm({ onCompleteAction }: FaqFormProps) {
             )}
           </div>
         </CardContent>
-        <CardFooter className="pb-5">
-          <Button
-            type="submit"
-            className="w-full h-10 text-sm bg-primary text-primary-foreground hover:bg-primary/90 transition-colors rounded-md"
-            disabled={isGenerating || faqs.length === 0}
-          >
-            Continue <FaArrowRight className="ml-2 h-3.5 w-3.5" />
-          </Button>
-        </CardFooter>
-      </form>
+
     </Card>
   );
 }

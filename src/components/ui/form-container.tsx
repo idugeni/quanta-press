@@ -47,9 +47,19 @@ interface FormContainerProps extends React.FormHTMLAttributes<HTMLFormElement> {
   isLoading?: boolean
   
   /**
+   * Status disabled
+   */
+  disabled?: boolean
+  
+  /**
    * Handler submit
    */
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void
+  
+  /**
+   * Handler ketika tombol submit dalam keadaan disabled diklik
+   */
+  onDisabledClick?: () => void
   
   /**
    * CSS Class tambahan
@@ -75,6 +85,8 @@ export function FormContainer({
   submitText = "Simpan",
   submitIcon,
   isLoading = false,
+  disabled = false,
+  onDisabledClick,
   onSubmit,
   className,
   cardClassName,
@@ -113,7 +125,8 @@ export function FormContainer({
             className={cn(
               "w-full h-10 text-sm bg-primary text-primary-foreground hover:bg-primary/90 transition-colors rounded-md"
             )}
-            disabled={isLoading}
+            disabled={isLoading || disabled}
+            onClick={disabled ? onDisabledClick : undefined}
           >
             {isLoading ? "Menyimpan..." : submitText}
             {submitIcon && !isLoading && <span className="ml-2">{submitIcon}</span>}
@@ -139,4 +152,4 @@ export function FormContainer({
       )}
     </Card>
   )
-} 
+}

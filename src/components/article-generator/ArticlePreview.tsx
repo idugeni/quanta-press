@@ -127,42 +127,6 @@ export function ArticlePreview({ article }: ArticlePreviewProps) {
               </div>
             )}
 
-            {article.infographics && (
-              <div className="space-y-3">
-                <h2 className="text-xl font-semibold tracking-tight scroll-m-20 text-foreground">Infografis</h2>
-                <Separator className="my-1 bg-border" />
-                <div className="bg-accent/30 p-3 rounded-md border border-input space-y-2">
-                  <h3 className="font-medium text-sm text-foreground">{article.infographics.title}</h3>
-                  <div className="text-xs text-muted-foreground">
-                    <p><span className="font-medium">Layout:</span> {article.infographics.layout_type}</p>
-                    <div className="mt-2">
-                      <span className="font-medium">Elemen Kunci:</span>
-                      <ul className="mt-1 space-y-1 pl-4">
-                        {article.infographics.key_elements.map((element, i) => (
-                          <li key={i}>{element.section}: {element.content} ({element.visual_type})</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {article.conversionOptimization && (
-              <div className="space-y-3">
-                <h2 className="text-xl font-semibold tracking-tight scroll-m-20 text-foreground">Optimasi Konversi</h2>
-                <Separator className="my-1 bg-border" />
-                <div className="bg-accent/30 p-3 rounded-md border border-input space-y-2">
-                  <p className="text-xs text-muted-foreground"><span className="font-medium">Tujuan:</span> {article.conversionOptimization.tujuan_utama}</p>
-                  <p className="text-xs text-muted-foreground"><span className="font-medium">Nilai Proposisi:</span> {article.conversionOptimization.nilai_proposisi}</p>
-                  <div className="mt-2">
-                    <p className="text-xs font-medium">CTA Utama:</p>
-                    <p className="text-xs text-muted-foreground">{article.conversionOptimization.cta_utama.teks} - {article.conversionOptimization.cta_utama.penempatan}</p>
-                  </div>
-                </div>
-              </div>
-            )}
-
             {article.metadata && (
               <div className="space-y-3">
                 <h2 className="text-xl font-semibold tracking-tight scroll-m-20 text-foreground">Metadata SEO</h2>
@@ -253,36 +217,7 @@ export function ArticlePreview({ article }: ArticlePreviewProps) {
               </div>
             )}
             
-            {article.plagiarismCheck && (
-              <div className="space-y-3">
-                <h2 className="text-xl font-semibold tracking-tight scroll-m-20 text-foreground">Pemeriksaan Plagiarisme</h2>
-                <Separator className="my-1 bg-border" />
-                <div className="bg-accent/30 p-3 rounded-md border border-input space-y-2">
-                  <div className="flex items-center">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 
-                      ${article.plagiarismCheck.score < 20 ? 'bg-green-500/20 text-green-700' : 
-                       article.plagiarismCheck.score < 50 ? 'bg-yellow-500/20 text-yellow-700' : 
-                       'bg-red-500/20 text-red-700'}`}>
-                      <span className="text-sm font-bold">{article.plagiarismCheck.score}%</span>
-                    </div>
-                    <div>
-                      <p className="text-xs font-medium">{article.plagiarismCheck.plagiarism_risk}</p>
-                      <p className="text-xs text-muted-foreground">Skor Plagiarisme</p>
-                    </div>
-                  </div>
-                  {article.plagiarismCheck.issues.length > 0 && (
-                    <div className="mt-2">
-                      <p className="text-xs font-medium">Masalah Terdeteksi:</p>
-                      <ul className="mt-1 space-y-1 pl-4 text-xs text-muted-foreground">
-                        {article.plagiarismCheck.issues.map((issue, i) => (
-                          <li key={i}>{issue}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
+
           </div>
         </ScrollArea>
       </CardContent>

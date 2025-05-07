@@ -8,23 +8,19 @@ import { ContentForm } from "@/components/forms/ContentForm"
 import { MetadataForm } from "@/components/forms/MetadataForm"
 import { ConclusionForm } from "@/components/forms/ConclusionForm"
 import { FaqForm } from "@/components/forms/FAQForm"
-import { InfographicsForm } from "@/components/forms/InfographicsForm"
-import { ConversionOptimizationForm } from "@/components/forms/ConversionOptimizationForm"
-import { PlagiarismCheckForm } from "@/components/forms/PlagiarismCheckForm"
+
 import { ArticleSettingsForm } from "@/components/forms/ArticleSettingsForm"
 import { useArticleStore } from "@/hooks/use-article-store"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from '@/components/ui/button'; // Tambahkan impor Button
-import { exportArticleAsText } from '@/utils/export'; // Tambahkan impor fungsi ekspor
 import { FaCalendarAlt, FaFileAlt, FaCog, FaBookOpen, FaImage, FaListUl, FaTags, 
-  FaQuestion, FaChartLine, FaMousePointer, FaClipboardCheck, FaDownload } from "react-icons/fa"
+  FaQuestion } from "react-icons/fa"
 import { FiFileText } from "react-icons/fi"
 import { FaMagic } from "react-icons/fa"
 import React from "react"
 
 // Import modular components
-import { Sidebar } from "@/components/article-generator/Sidebar"
+import { Sidebar } from "@/components/layout/Sidebar"
 import { MobileSteps } from "@/components/article-generator/MobileSteps"
 import { ArticlePreview } from "@/components/article-generator/ArticlePreview"
 import { ArticleFormContent } from "@/components/article-generator/ArticleFormContent"
@@ -49,9 +45,7 @@ export function ArticleGenerator() {
     <FaTags key="metadata" className="h-4 w-4" />,
     <FaBookOpen key="conclusion" className="h-4 w-4" />,
     <FaQuestion key="faq" className="h-4 w-4" />,
-    <FaChartLine key="infographics" className="h-4 w-4" />,
-    <FaMousePointer key="conversion" className="h-4 w-4" />,
-    <FaClipboardCheck key="plagiarism" className="h-4 w-4" />
+
   ]
 
   const steps = [
@@ -63,9 +57,7 @@ export function ArticleGenerator() {
     { id: 5, name: "Metadata", component: <MetadataForm onCompleteAction={() => setActiveStep(6)} /> },
     { id: 6, name: "Conclusion", component: <ConclusionForm onCompleteAction={() => setActiveStep(7)} /> },
     { id: 7, name: "FAQ", component: <FaqForm onCompleteAction={() => setActiveStep(8)} /> },
-    { id: 8, name: "Infographics", component: <InfographicsForm onCompleteAction={() => setActiveStep(9)} /> },
-    { id: 9, name: "Conversion", component: <ConversionOptimizationForm onCompleteAction={() => setActiveStep(10)} /> },
-    { id: 10, name: "Plagiarism Check", component: <PlagiarismCheckForm onCompleteAction={() => handleCompleteAction()} /> },
+
   ]
 
   // Ensure activeStep is within bounds
@@ -87,20 +79,9 @@ export function ArticleGenerator() {
     }
   }
 
-  const handleCompleteAction = () => {
-    setError('');
-    // alert("Article generation complete! You can now export or use your article."); // Komentari atau hapus alert ini jika tombol ekspor sudah cukup
-  };
 
-  // Handler untuk ekspor teks
-  const handleExportText = () => {
-    if (article) {
-      exportArticleAsText(article);
-    } else {
-      // Mungkin tampilkan pesan error jika artikel belum ada
-      console.error('Artikel belum siap untuk diekspor.');
-    }
-  };
+
+
 
   // Ensure we have a valid step before rendering
   const currentStep = steps[safeActiveStep]
@@ -164,15 +145,7 @@ export function ArticleGenerator() {
             </TabsContent>
           </Tabs>
 
-          {/* Tombol Ekspor - Muncul setelah langkah terakhir */}
-          {safeActiveStep === steps.length - 1 && (
-            <div className="mt-6 flex justify-end fade-in">
-              <Button onClick={handleExportText}>
-                <FaDownload className="mr-2 h-4 w-4" />
-                Ekspor sebagai Teks (.txt)
-              </Button>
-            </div>
-          )}
+
         </div>
       </div>
     </div>

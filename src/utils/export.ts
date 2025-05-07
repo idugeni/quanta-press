@@ -1,4 +1,7 @@
 import { Article, ArticleSection, ArticleFaq } from '@/types/article';
+import { Document, Packer, Paragraph, TextRun } from 'docx';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 
 /**
  * Memformat konten artikel menjadi teks biasa.
@@ -115,16 +118,144 @@ function formatArticleAsMarkdown(article: Article): string {
 export function exportArticleAsMarkdown(article: Article, filename?: string): void {
   const markdownContent = formatArticleAsMarkdown(article);
   const finalFilename = `${filename || article.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.md`;
-  // Menggunakan kembali fungsi downloadTextFile, tapi sesuaikan tipe data jika perlu
-  // Untuk Markdown, 'data:text/markdown;charset=utf-8,' mungkin lebih tepat, tapi 'text/plain' umumnya bekerja
   const element = document.createElement('a');
   element.setAttribute('href', 'data:text/markdown;charset=utf-8,' + encodeURIComponent(markdownContent));
   element.setAttribute('download', finalFilename);
-
   element.style.display = 'none';
   document.body.appendChild(element);
-
   element.click();
-
   document.body.removeChild(element);
+}
+
+export function exportArticleAsPdf(article: Article, filename?: string): void {
+  const doc = new jsPDF();
+  const finalFilename = `${filename || article.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`;
+  
+  // Judul
+  doc.setFontSize(20);
+  doc.text(article.title, 20, 20);
+  
+  // Pendahuluan
+  doc.setFontSize(12);
+  doc.text('Pendahuluan', 20, 35);
+  doc.setFontSize(10);
+  const introLines = doc.splitTextToSize(article.introduction, 170);
+  doc.text(introLines, 20, 45);
+  
+  let yPos = 45 + (introLines.length * 7);
+  
+  // Konten
+  article.content.forEach((section: ArticleSection) => {
+    if (yPos > 250) {
+      doc.addPage();
+      yPos = 20;
+    }
+    
+    doc.setFontSize(12);
+    doc.text(section.title, 20, yPos);
+    yPos += 10;
+    
+    doc.setFontSize(10);
+    const contentText = section.content.replace(/<[^>]*>/g, '');
+    const contentLines = doc.splitTextToSize(contentText, 170);
+    doc.text(contentLines, 20, yPos);
+    yPos += (contentLines.length * 7) + 10;
+  });
+  
+  // FAQ
+  if (article.faqs && article.faqs.length > 0) {
+    if (yPos > 250) {
+      doc.addPage();
+      yPos = 20;
+    }
+    
+    doc.setFontSize(12);
+    doc.text('FAQ', 20, yPos);
+    yPos += 10;
+    
+    article.faqs.forEach((faq: ArticleFaq) => {
+      if (yPos > 250) {
+        doc.addPage();
+        yPos = 20;
+      }
+      
+      doc.setFontSize(10);
+      doc.setFont('', 'bold');
+      const questionLines = doc.splitTextToSize(`T: ${faq.question}`, 170);
+      doc.text(questionLines, 20, yPos);
+      yPos += (questionLines.length * 7);
+      
+      doc.setFont('', 'normal');
+      const answerLines = doc.splitTextToSize(`J: ${faq.answer}`, 170);
+      doc.text(answerLines, 20, yPos);
+      yPos += (answerLines.length * 7) + 7;
+    });
+  }
+  
+  doc.save(finalFilename);
+}
+
+export function exportArticleAsWord(article: Article, filename?: string): void {
+  const doc = new Document({
+    sections: [{
+      properties: {},
+      children: [
+        new Paragraph({
+          children: [new TextRun({ text: article.title, bold: true, size: 32 })]
+        }),
+        new Paragraph({
+          children: [new TextRun({ text: '\n' })]
+        }),
+        new Paragraph({
+          children: [new TextRun({ text: 'Pendahuluan', bold: true, size: 24 })]
+        }),
+        new Paragraph({
+          children: [new TextRun({ text: article.introduction })]
+        }),
+        ...article.content.flatMap(section => [
+          new Paragraph({
+            children: [new TextRun({ text: '\n' })]
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: section.title, bold: true, size: 24 })]
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: section.content.replace(/<[^>]*>/g, '') })]
+          })
+        ]),
+        ...(article.faqs && article.faqs.length > 0 ? [
+          new Paragraph({
+            children: [new TextRun({ text: '\n' })]
+          }),
+          new Paragraph({
+            children: [new TextRun({ text: 'FAQ', bold: true, size: 24 })]
+          }),
+          ...article.faqs.flatMap(faq => [
+            new Paragraph({
+              children: [new TextRun({ text: `T: ${faq.question}`, bold: true })]
+            }),
+            new Paragraph({
+              children: [new TextRun({ text: `J: ${faq.answer}` })]
+            }),
+            new Paragraph({
+              children: [new TextRun({ text: '\n' })]
+            })
+          ])
+        ] : [])
+      ]
+    }]
+  });
+
+  const finalFilename = `${filename || article.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.docx`;
+  
+  Packer.toBlob(doc).then(blob => {
+    const url = window.URL.createObjectURL(blob);
+    const element = document.createElement('a');
+    element.setAttribute('href', url);
+    element.setAttribute('download', finalFilename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  });
 }

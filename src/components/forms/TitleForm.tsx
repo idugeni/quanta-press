@@ -75,7 +75,8 @@ export function TitleForm({ onCompleteAction }: TitleFormProps) {
         <CardFooter className="pb-5">
           <Button 
             type="submit" 
-            className="w-full h-10 text-sm bg-primary text-primary-foreground hover:bg-primary/90 transition-colors rounded-md"
+            disabled={!titleInput.trim()}
+            className="w-full h-10 text-sm bg-primary text-primary-foreground hover:bg-primary/90 transition-colors rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Continue <FaArrowRight className="ml-2 h-3.5 w-3.5" />
           </Button>

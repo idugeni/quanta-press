@@ -5,9 +5,7 @@ import type {
   ArticleMetadata, 
   ArticleConclusion, 
   ArticleFaq, 
-  ArticleInfographics, 
-  ArticleConversionOptimization, 
-  PlagiarismResult, 
+
   IndustryType, 
   WritingStyle, 
   ContentLength 
@@ -21,9 +19,7 @@ export type {
   ArticleMetadata, 
   ArticleConclusion, 
   ArticleFaq, 
-  ArticleInfographics, 
-  ArticleConversionOptimization, 
-  PlagiarismResult, 
+
   IndustryType, 
   WritingStyle, 
   ContentLength,
@@ -44,9 +40,7 @@ export const useArticleStore = create<ArticleState>((set) => ({
     metadata: null,
     conclusion: null,
     faqs: [],
-    infographics: null,
-    conversionOptimization: null,
-    plagiarismCheck: null,
+
     industryType: "general",
     writingStyle: "balanced",
     contentLength: "medium"
@@ -91,20 +85,7 @@ export const useArticleStore = create<ArticleState>((set) => ({
       article: { ...state.article, faqs },
     })),
     
-  setInfographics: (infographics) =>
-    set((state) => ({
-      article: { ...state.article, infographics },
-    })),
-    
-  setConversionOptimization: (conversionOptimization) =>
-    set((state) => ({
-      article: { ...state.article, conversionOptimization },
-    })),
-    
-  setPlagiarismCheck: (plagiarismCheck) =>
-    set((state) => ({
-      article: { ...state.article, plagiarismCheck },
-    })),
+
     
   setIndustryType: (industryType) =>
     set((state) => ({
@@ -132,9 +113,7 @@ export const useArticleStore = create<ArticleState>((set) => ({
         metadata: null,
         conclusion: null,
         faqs: [],
-        infographics: null,
-        conversionOptimization: null,
-        plagiarismCheck: null,
+
         industryType: "general",
         writingStyle: "balanced",
         contentLength: "medium"

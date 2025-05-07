@@ -4,9 +4,6 @@ import type {
   ArticleMetadata, 
   ArticleConclusion, 
   ArticleFaq, 
-  ArticleInfographics,
-  ArticleConversionOptimization,
-  PlagiarismResult,
   IndustryType,
   WritingStyle,
   ContentLength
@@ -62,23 +59,7 @@ export interface ArticleState {
    */
   setFaqs: (faqs: ArticleFaq[]) => void
   
-  /**
-   * Mengatur data infografis artikel
-   * @param infographics - Data infografis yang baru
-   */
-  setInfographics: (infographics: ArticleInfographics) => void
-  
-  /**
-   * Mengatur strategi optimasi konversi
-   * @param conversionOptimization - Data optimasi konversi yang baru
-   */
-  setConversionOptimization: (conversionOptimization: ArticleConversionOptimization) => void
-  
-  /**
-   * Mengatur hasil pemeriksaan plagiarisme
-   * @param plagiarismCheck - Hasil pemeriksaan plagiarisme yang baru
-   */
-  setPlagiarismCheck: (plagiarismCheck: PlagiarismResult) => void
+
   
   /**
    * Mengatur jenis industri artikel
@@ -102,4 +83,4 @@ export interface ArticleState {
    * Mengatur ulang semua data artikel ke default
    */
   reset: () => void
-} 
+}
